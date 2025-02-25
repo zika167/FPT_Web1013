@@ -1,0 +1,235 @@
+@use "../abstracts";
+
+.filter-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.filter {
+  position: absolute;
+  top: 58px;
+  right: 0;
+
+  padding: 30px 0;
+  border-radius: 20px;
+
+  background: var(--filter-form-bg);
+  filter: drop-shadow(0px 40px 90px var(--filter-form-shadow));
+  transition: opacity, visibility;
+  transition-duration: 0.2s;
+
+  @include abstracts.screen(sm) {
+    width: 100vw;
+    height: 100vh;
+    inset: 0;
+    position: fixed;
+    border-radius: 0;
+
+    &-wrap {
+      padding-left: 10px;
+    }
+  }
+
+  &.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &__arrow {
+    position: absolute;
+    top: -13px;
+    right: 30px;
+    height: 50px;
+    filter: var(--filter-form-arrow);
+  }
+
+  &__heading {
+    font-size: 2.2rem;
+    font-weight: 500;
+    line-height: 145.455%;
+  }
+
+  &__form {
+    margin-top: 30px;
+
+    &-group {
+      margin-top: 20px;
+
+      &--inline {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+    }
+
+    &-slider {
+      position: relative;
+
+      width: 100%;
+      height: 2px;
+      background: #d2d1d6;
+
+      &::before,
+      &::after {
+        position: absolute;
+        content: "";
+        top: 50%;
+        translate: 0 -50%;
+
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 6px solid #ffb700;
+
+        background: var(--filter-form-bg);
+      }
+
+      &::before {
+        left: var(--min-value);
+      }
+
+      &::after {
+        left: var(--max-value);
+      }
+    }
+
+    &-text-input {
+      border-radius: 6px;
+      border: 1px solid #d2d1d6;
+    }
+
+    &-text-input {
+      font-weight: 500;
+      line-height: 142.857%;
+
+      display: flex;
+      justify-content: space-between;
+
+      width: 315px;
+      height: 44px;
+      padding: 0 16px;
+
+      @include abstracts.screen(xl) {
+        width: 288px;
+      }
+
+      &--small {
+        width: 121px;
+        height: 36px;
+        padding: 0 12px;
+
+        @include abstracts.screen(xl) {
+          width: 100px;
+        }
+
+        @include abstracts.screen(lg) {
+          width: 100%;
+        }
+      }
+    }
+
+    &-text-input--small &-input {
+      font-size: 1.4rem;
+    }
+
+    &-input {
+      width: 100%;
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 146.667%;
+
+      &::placeholder {
+        color: #9e9da8;
+        font-weight: 400;
+
+        @include abstracts.screen(sm) {
+          font-size: 1.6rem;
+        }
+      }
+    }
+
+    &-input-icon {
+      margin-left: 12px;
+      width: 24px;
+    }
+  }
+  //   end form
+
+  &__row {
+    display: flex;
+  }
+
+  &__content {
+    max-height: calc(100vh - 350px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    @include abstracts.screen(lg) {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @include abstracts.screen(sm) {
+      max-height: calc(100vh - 230px);
+      padding-bottom: 60px;
+    }
+  }
+
+  &__separate {
+    width: 2px;
+    margin: 0 30px;
+    background: #eee;
+
+    @include abstracts.screen(xl) {
+      margin: 0 20px;
+    }
+
+    @include abstracts.screen(lg) {
+      width: 100%;
+      height: 2px;
+      margin: 25px 0;
+    }
+
+    @include abstracts.screen(sm) {
+      margin: 10px 0;
+    }
+  }
+
+  &__footer {
+    justify-content: flex-end;
+    margin-top: 25px;
+
+    @include abstracts.screen(sm) {
+      position: sticky;
+      bottom: 30px;
+      background: var(--filter-form-bg);
+    }
+  }
+
+  &__cancel,
+  &__submit {
+    font-size: 1.5rem;
+    line-height: 146.667%;
+    height: 38px;
+    padding: 0 10px;
+
+    @include abstracts.screen(sm) {
+      flex: 1;
+      height: 45px;
+    }
+  }
+
+  &__cancel {
+    font-weight: 400;
+  }
+
+  &__submit {
+    font-weight: 500;
+  }
+
+  &__heading,
+  &__content,
+  &__footer {
+    padding: 0 30px;
+  }
+}

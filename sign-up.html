@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign up | Grocery Mart</title>
+
+    <!-- favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="./assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="./assets/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="./assets/favicon/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- reset CSS -->
+
+    <!-- embed fonts -->
+    <link rel="stylesheet" href="./assets/fonts/stylesheet.css" />
+
+    <!-- grid CSS -->
+
+    <!-- styles CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css" />
+
+    <!-- scripts -->
+    <script src="./assets/js/scripts.js"></script>
+  </head>
+
+  <body>
+    <!-- main -->
+    <main class="auth">
+      <!-- auth intro -->
+      <div class="auth__intro">
+        <!-- logo -->
+        <a href="./" class="logo d-none d-md-flex">
+          <img
+            src="./assets/icon/logo.svg"
+            alt="grocerymart"
+            class="logo__img"
+          />
+          <h1 class="logo__title">grocerymart</h1>
+        </a>
+
+        <div class="auth__intro-main">
+          <img
+            src="./assets/img/auth/intro.svg"
+            alt=""
+            class="auth__intro-img"
+          />
+          <p class="auth__intro-text">
+            The best of luxury brand values, high quality products and
+            innovative services.
+          </p>
+        </div>
+
+        <button
+          class="auth__intro-next d-none d-md-block js-toggle"
+          toggle-target="#auth-content"
+        >
+          <img src="./assets/icon/next.svg" alt="" />
+        </button>
+      </div>
+
+      <!-- auth content -->
+      <div id="auth-content" class="auth__content hide">
+        <div class="auth__content-inner">
+          <!-- logo -->
+          <a href="./" class="logo">
+            <img
+              src="./assets/icon/logo.svg"
+              alt="grocerymart"
+              class="logo__img"
+            />
+            <h1 class="logo__title">grocerymart</h1>
+          </a>
+          <h1 class="auth__heading">Sign Up</h1>
+          <p class="auth__desc">
+            Let’s create your account and Shop like a pro and save money.
+          </p>
+          <form action="./index-logined.html" class="form auth__form">
+            <div class="form__group">
+              <div class="form__text-input">
+                <input
+                  type="email"
+                  name=""
+                  id=""
+                  class="form__input"
+                  placeholder="Email"
+                  value="admin@grocerymart.com"
+                  required
+                  autofocus
+                />
+                <img
+                  src="./assets/icon/email.svg"
+                  alt=""
+                  class="form__input-icon"
+                />
+                <img
+                  src="./assets/icon/error.svg"
+                  alt=""
+                  class="form__input-icon-error"
+                />
+              </div>
+              <p class="form__error">Email chưa đúng định dạng</p>
+            </div>
+            <div class="form__group">
+              <div class="form__text-input">
+                <input
+                  type="password"
+                  name=""
+                  id=""
+                  class="form__input"
+                  placeholder="Password"
+                  value="123123123"
+                  required
+                  minlength="6"
+                />
+                <img
+                  src="./assets/icon/lock.svg"
+                  alt=""
+                  class="form__input-icon"
+                />
+                <img
+                  src="./assets/icon/error.svg"
+                  alt=""
+                  class="form__input-icon-error"
+                />
+              </div>
+              <p class="form__error">Mật khẩu ít nhất 6 ký tự</p>
+            </div>
+            <div class="form__group">
+              <div class="form__text-input">
+                <input
+                  type="password"
+                  name=""
+                  id=""
+                  class="form__input"
+                  placeholder="Confirm password"
+                  value="123123123"
+                  required
+                  minlength="6"
+                />
+                <img
+                  src="./assets/icon/lock.svg"
+                  alt=""
+                  class="form__input-icon"
+                />
+                <img
+                  src="./assets/icon/error.svg"
+                  alt=""
+                  class="form__input-icon-error"
+                />
+              </div>
+              <p class="form__error">Mật khẩu ít nhất 6 ký tự</p>
+            </div>
+            <div class="form__group form__group--inline">
+              <label class="form__checkbox">
+                <input type="checkbox" name="" class="form__checkbox-input" />
+                <span class="form__checkbox-label">Set as default card</span>
+              </label>
+              <a
+                href="./reset-password.html"
+                class="auth__link form__pull-right"
+                >Forgot Password?</a
+              >
+            </div>
+            <div class="form__group auth__btn-group">
+              <button class="btn btn--primary auth__btn form__submit-btn">
+                Sign Up
+              </button>
+              <button class="btn btn--outline auth__btn btn--no-margin">
+                <img
+                  src="./assets/icon/google.svg"
+                  alt=""
+                  class="btn-icon icon"
+                />
+                Sign in with Google
+              </button>
+            </div>
+          </form>
+
+          <p class="auth__text">
+            You have an account yet?
+            <a href="./sign-in.html" class="auth__link">Sign In</a>
+          </p>
+        </div>
+      </div>
+    </main>
+    <script>
+      window.dispatchEvent(new Event("template-loaded"));
+    </script>
+  </body>
+</html>
