@@ -230,12 +230,10 @@ document.querySelector("html").classList.toggle("dark", isDark);
 
 /**
  * Hàm ẩn hiện trái tim đỏ khi ấn vào phần sản phẩm
- *
- * Cách dùng:
- *
+ * Chỉ áp dụng cho các nút like không có data-product-id (không phải sản phẩm được render bởi JavaScript)
  */
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".like-btn").forEach((button) => {
+    document.querySelectorAll(".like-btn:not([data-product-id])").forEach((button) => {
         button.addEventListener("click", function () {
             this.classList.toggle("like-btn__liked");
         });
@@ -289,3 +287,41 @@ document.addEventListener('DOMContentLoaded', function () {
       deletedItems = [];
   });
 });
+
+// === PRODUCT IMAGE PASSING BETWEEN PAGES ===
+if (window.location.pathname.endsWith('category.html')) {
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.product-card__img-wrap a, .product-card__title a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        // Lấy thẻ img gần nhất
+        var img = this.closest('.product-card').querySelector('.product-card__thumb');
+        if (img) {
+          localStorage.setItem('selectedProductImg', img.getAttribute('src'));
+        }
+      });
+    });
+  });
+}
+
+if (window.location.pathname.endsWith('product-detail.html')) {
+  document.addEventListener('DOMContentLoaded', function () {
+    var selectedImg = localStorage.getItem('selectedProductImg');
+    if (selectedImg) {
+      var mainImgs = document.querySelectorAll('.prod-preview__img');
+      var thumbImgs = document.querySelectorAll('.prod-preview__thumb-img');
+      if (mainImgs.length > 0 && thumbImgs.length > 0) {
+        mainImgs.forEach(function(img, i) {
+          img.setAttribute('src', selectedImg);
+        });
+        thumbImgs.forEach(function(img, i) {
+          img.setAttribute('src', selectedImg);
+        });
+        // Đảm bảo ảnh đầu tiên là current
+        thumbImgs.forEach(function(img, i) {
+          if (i === 0) img.classList.add('prod-preview__thumb-img--current');
+          else img.classList.remove('prod-preview__thumb-img--current');
+        });
+      }
+    }
+  });
+}

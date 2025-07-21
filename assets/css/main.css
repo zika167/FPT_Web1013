@@ -4604,4 +4604,24 @@ html {
   margin-top: 30px;
 }
 
-/*# sourceMappingURL=main.css.map */
+/* CATEGORY PAGE CUSTOM SPACING */
+.category-page .category-title {
+  margin-top: 40px;
+  margin-bottom: 32px;
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+.category-page .row {
+  margin-bottom: 60px;
+}
+@media (max-width: 767.98px) {
+  .category-page .category-title {
+    margin-top: 24px;
+    margin-bottom: 18px;
+    font-size: 1.5rem;
+  }
+  .category-page .row {
+    margin-bottom: 32px;
+  }
+}

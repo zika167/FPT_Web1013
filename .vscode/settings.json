@@ -5,5 +5,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "prettier.bracketSameLine": true,
-  "prettier.tabWidth": 4
+  "prettier.tabWidth": 4,
+  "cSpell.words": [
+    "Lavazza"
+  ]
 }

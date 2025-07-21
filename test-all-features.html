@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test All Features</title>
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/slideshow.css" />
+    
+    <!-- scripts -->
+    <script src="./assets/js/scripts.js"></script>
+    <script src="./assets/js/slideshow.js"></script>
+    <script src="./assets/js/products.js"></script>
+</head>
+
+<body>
+    <div class="container home">
+        <!-- slideshow -->
+        <div class="home__container">
+            <div class="slideshow">
+                <div class="slideshow__inner">
+                    <div class="slideshow__item">
+                        <a href="#!" class="slideshow__link">
+                            <picture>
+                                <source
+                                    media="(max-width: 767.98px)"
+                                    srcset="./assets/img/slideshow/item-1-md.png" />
+                                <img src="./assets/img/slideshow/item-1.png" alt="" class="slideshow__img" />
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="slideshow__item">
+                        <a href="#!" class="slideshow__link">
+                            <picture>
+                                <source
+                                    media="(max-width: 767.98px)"
+                                    srcset="./assets/img/slideshow/slider-2.png" />
+                                <img src="./assets/img/slideshow/slider-2.png" alt="" class="slideshow__img" />
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="slideshow__item">
+                        <a href="#!" class="slideshow__link">
+                            <picture>
+                                <source
+                                    media="(max-width: 767.98px)"
+                                    srcset="./assets/img/slideshow/slider-3.png" />
+                                <img src="./assets/img/slideshow/slider-3.png" alt="" class="slideshow__img" />
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="slideshow__item">
+                        <a href="#!" class="slideshow__link">
+                            <picture>
+                                <source
+                                    media="(max-width: 767.98px)"
+                                    srcset="./assets/img/slideshow/slider-4.png" />
+                                <img src="./assets/img/slideshow/slider-4.png" alt="" class="slideshow__img" />
+                            </picture>
+                        </a>
+                    </div>
+                    <div class="slideshow__item">
+                        <a href="#!" class="slideshow__link">
+                            <picture>
+                                <source
+                                    media="(max-width: 767.98px)"
+                                    srcset="./assets/img/slideshow/slider-5.png" />
+                                <img src="./assets/img/slideshow/slider-5.png" alt="" class="slideshow__img" />
+                            </picture>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- browse products -->
+        <section class="home__container">
+            <div class="home__row">
+                <h2 class="home__heading">Total LavAzza 8</h2>
+            </div>
+            <div class="row row-cols-4 row-cols-lg-2 row-cols-sm-1 g-3" id="products-container">
+                <!-- Products will be rendered by JavaScript -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Test console log
+        console.log('Test page loaded');
+        console.log('Slideshow should auto-change every 5 seconds');
+        console.log('Product like buttons should be interactive');
+        console.log('Products are rendered dynamically from JavaScript');
+    </script>
+</body>
+</html> 
