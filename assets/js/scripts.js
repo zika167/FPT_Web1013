@@ -291,12 +291,69 @@ document.addEventListener('DOMContentLoaded', function () {
 // === PRODUCT IMAGE PASSING BETWEEN PAGES ===
 if (window.location.pathname.endsWith('category.html')) {
   document.addEventListener('DOMContentLoaded', function () {
+    // Xóa localStorage cũ khi vào trang category để đảm bảo sạch sẽ
+    localStorage.removeItem('selectedProductImg');
+    localStorage.removeItem('selectedProductImgSetTime');
+    localStorage.removeItem('selectedProductTitle');
+    localStorage.removeItem('selectedProductBrand');
+    localStorage.removeItem('selectedProductPrice');
+    localStorage.removeItem('selectedProductScore');
+    console.log('Cleared localStorage when entering category page');
+    
     document.querySelectorAll('.product-card__img-wrap a, .product-card__title a').forEach(function(link) {
       link.addEventListener('click', function(e) {
-        // Lấy thẻ img gần nhất
-        var img = this.closest('.product-card').querySelector('.product-card__thumb');
-        if (img) {
-          localStorage.setItem('selectedProductImg', img.getAttribute('src'));
+        // Xóa localStorage cũ trước khi lưu thông tin mới
+        localStorage.removeItem('selectedProductImg');
+        localStorage.removeItem('selectedProductImgSetTime');
+        localStorage.removeItem('selectedProductTitle');
+        localStorage.removeItem('selectedProductBrand');
+        localStorage.removeItem('selectedProductPrice');
+        localStorage.removeItem('selectedProductScore');
+        
+        // Lấy thông tin sản phẩm từ product-card
+        var productCard = this.closest('.product-card');
+        if (productCard) {
+          var img = productCard.querySelector('.product-card__thumb');
+          var title = productCard.querySelector('.product-card__title a');
+          var brand = productCard.querySelector('.product-card__brand');
+          var price = productCard.querySelector('.product-card__price');
+          var score = productCard.querySelector('.product-card__score');
+          
+          if (img && title && brand && price && score) {
+            var imgSrc = img.getAttribute('src');
+            var titleText = title.textContent.trim();
+            var brandText = brand.textContent.trim();
+            var priceText = price.textContent.trim();
+            var scoreText = score.textContent.trim();
+            var currentTime = new Date().getTime();
+            
+            // Lưu tất cả thông tin sản phẩm vào localStorage
+            localStorage.setItem('selectedProductImg', imgSrc);
+            localStorage.setItem('selectedProductImgSetTime', currentTime);
+            localStorage.setItem('selectedProductTitle', titleText);
+            localStorage.setItem('selectedProductBrand', brandText);
+            localStorage.setItem('selectedProductPrice', priceText);
+            localStorage.setItem('selectedProductScore', scoreText);
+            
+            console.log('Selected product info:', {
+              image: imgSrc,
+              title: titleText,
+              brand: brandText,
+              price: priceText,
+              score: scoreText
+            });
+            
+            // Auto-clear localStorage sau 5 phút để tránh lưu trữ vĩnh viễn
+            setTimeout(function() {
+              localStorage.removeItem('selectedProductImg');
+              localStorage.removeItem('selectedProductImgSetTime');
+              localStorage.removeItem('selectedProductTitle');
+              localStorage.removeItem('selectedProductBrand');
+              localStorage.removeItem('selectedProductPrice');
+              localStorage.removeItem('selectedProductScore');
+              console.log('Auto-cleared selectedProduct info from localStorage');
+            }, 5 * 60 * 1000); // 5 phút
+          }
         }
       });
     });
@@ -306,22 +363,294 @@ if (window.location.pathname.endsWith('category.html')) {
 if (window.location.pathname.endsWith('product-detail.html')) {
   document.addEventListener('DOMContentLoaded', function () {
     var selectedImg = localStorage.getItem('selectedProductImg');
-    if (selectedImg) {
-      var mainImgs = document.querySelectorAll('.prod-preview__img');
-      var thumbImgs = document.querySelectorAll('.prod-preview__thumb-img');
-      if (mainImgs.length > 0 && thumbImgs.length > 0) {
-        mainImgs.forEach(function(img, i) {
-          img.setAttribute('src', selectedImg);
-        });
-        thumbImgs.forEach(function(img, i) {
-          img.setAttribute('src', selectedImg);
-        });
-        // Đảm bảo ảnh đầu tiên là current
-        thumbImgs.forEach(function(img, i) {
-          if (i === 0) img.classList.add('prod-preview__thumb-img--current');
-          else img.classList.remove('prod-preview__thumb-img--current');
+    var selectedTitle = localStorage.getItem('selectedProductTitle');
+    var selectedBrand = localStorage.getItem('selectedProductBrand');
+    var selectedPrice = localStorage.getItem('selectedProductPrice');
+    var selectedScore = localStorage.getItem('selectedProductScore');
+    
+    // Nếu không có thông tin được chọn, sử dụng thông tin mặc định
+    if (!selectedImg) {
+      selectedImg = './assets/img/product/item-1.png';
+      console.log('No selected image, using default:', selectedImg);
+    } else {
+      console.log('Using selected image:', selectedImg);
+    }
+    
+    if (!selectedTitle) {
+      selectedTitle = 'Coffee Beans - Espresso Arabica and Robusta Beans';
+      console.log('No selected title, using default:', selectedTitle);
+    } else {
+      console.log('Using selected title:', selectedTitle);
+    }
+    
+    if (!selectedBrand) {
+      selectedBrand = 'Lavazza';
+      console.log('No selected brand, using default:', selectedBrand);
+    } else {
+      console.log('Using selected brand:', selectedBrand);
+    }
+    
+    if (!selectedPrice) {
+      selectedPrice = '$500.00';
+      console.log('No selected price, using default:', selectedPrice);
+    } else {
+      console.log('Using selected price:', selectedPrice);
+    }
+    
+    if (!selectedScore) {
+      selectedScore = '4.3';
+      console.log('No selected score, using default:', selectedScore);
+    } else {
+      console.log('Using selected score:', selectedScore);
+    }
+    
+    // Xóa localStorage ngay sau khi sử dụng để tránh ảnh hưởng đến sản phẩm tiếp theo
+    localStorage.removeItem('selectedProductImg');
+    localStorage.removeItem('selectedProductImgSetTime');
+    localStorage.removeItem('selectedProductTitle');
+    localStorage.removeItem('selectedProductBrand');
+    localStorage.removeItem('selectedProductPrice');
+    localStorage.removeItem('selectedProductScore');
+    console.log('Cleared localStorage after using selected product info');
+    
+    var mainImgs = document.querySelectorAll('.prod-preview__img');
+    var thumbImgs = document.querySelectorAll('.prod-preview__thumb-img');
+    
+    if (mainImgs.length > 0 && thumbImgs.length > 0) {
+      // Danh sách tất cả hình ảnh sản phẩm có sẵn
+      var productImages = [
+        './assets/img/product/item-1.png',
+        './assets/img/product/item-2.png',
+        './assets/img/product/item-3.png',
+        './assets/img/product/item-4.png',
+        './assets/img/product/item-5.png',
+        './assets/img/product/item-6.png',
+        './assets/img/product/item-7.png',
+        './assets/img/product/item-8.png'
+      ];
+      
+      // Hình đầu tiên là hình được chọn
+      mainImgs[0].setAttribute('src', selectedImg);
+      thumbImgs[0].setAttribute('src', selectedImg);
+      thumbImgs[0].classList.add('prod-preview__thumb-img--current');
+      console.log('Set first image to selected image:', selectedImg);
+      
+      // Cập nhật thông tin sản phẩm từ localStorage
+      var prodTitle = document.querySelector('.prod-info__heading');
+      var prodBrand = document.querySelector('.prod-info__brand');
+      var prodPrice = document.querySelector('.prod-info__price');
+      var prodScore = document.querySelector('.prod-prop__title');
+      
+      if (prodTitle) {
+        prodTitle.textContent = selectedTitle;
+        console.log('Updated product title:', selectedTitle);
+      }
+      
+      if (prodBrand) {
+        prodBrand.textContent = selectedBrand;
+        console.log('Updated product brand:', selectedBrand);
+      }
+      
+      if (prodPrice) {
+        prodPrice.textContent = selectedPrice;
+        console.log('Updated product price:', selectedPrice);
+      }
+      
+      if (prodScore) {
+        // Cập nhật điểm đánh giá trong format "(score) X reviews"
+        var currentReviews = prodScore.textContent.match(/\([^)]+\)\s*(.+)/);
+        if (currentReviews) {
+          prodScore.textContent = `(${selectedScore}) ${currentReviews[1]}`;
+        } else {
+          prodScore.textContent = `(${selectedScore}) 1100 reviews`;
+        }
+        console.log('Updated product score:', selectedScore);
+      }
+      
+      // Các hình còn lại được chọn random từ danh sách (loại bỏ hình đã chọn)
+      var availableImages = productImages.filter(img => img !== selectedImg);
+      console.log('Available images for random selection:', availableImages);
+      
+      // Random 3 hình còn lại
+      for (var i = 1; i < 4; i++) {
+        if (i < mainImgs.length && i < thumbImgs.length && availableImages.length > 0) {
+          var randomIndex = Math.floor(Math.random() * availableImages.length);
+          var randomImg = availableImages[randomIndex];
+          
+          mainImgs[i].setAttribute('src', randomImg);
+          thumbImgs[i].setAttribute('src', randomImg);
+          thumbImgs[i].classList.remove('prod-preview__thumb-img--current');
+          
+          console.log(`Set image ${i+1} to random image:`, randomImg);
+          
+          // Loại bỏ hình đã dùng để tránh trùng lặp
+          availableImages.splice(randomIndex, 1);
+        }
+      }
+      
+      // Xử lý tương tác giữa các thumbnail
+      var mainPreviewImg = document.querySelector('.prod-preview__list .prod-preview__item:first-child img');
+      var thumbnails = document.querySelectorAll('.prod-preview__thumbs .prod-preview__thumb-img');
+      
+      if (mainPreviewImg && thumbnails.length > 0) {
+        thumbnails.forEach(function(thumb, index) {
+          thumb.addEventListener('click', function() {
+            console.log('Thumbnail clicked:', this.getAttribute('src'));
+            
+            // Cập nhật hình chính
+            mainPreviewImg.setAttribute('src', this.getAttribute('src'));
+            
+            // Cập nhật trạng thái current
+            thumbnails.forEach(t => t.classList.remove('prod-preview__thumb-img--current'));
+            this.classList.add('prod-preview__thumb-img--current');
+            
+            console.log('Updated main preview image and thumbnail states');
+          });
         });
       }
     }
+    
+    // Xóa localStorage khi rời khỏi trang để đảm bảo sản phẩm tiếp theo không bị ảnh hưởng
+    window.addEventListener('beforeunload', function() {
+      localStorage.removeItem('selectedProductImg');
+      localStorage.removeItem('selectedProductImgSetTime');
+      localStorage.removeItem('selectedProductTitle');
+      localStorage.removeItem('selectedProductBrand');
+      localStorage.removeItem('selectedProductPrice');
+      localStorage.removeItem('selectedProductScore');
+      console.log('Cleared localStorage before leaving product-detail page');
+    });
+  });
+}
+
+// Xử lý cho test page
+if (window.location.pathname.endsWith('test-product-image.html')) {
+  document.addEventListener('DOMContentLoaded', function () {
+    var selectedImg = localStorage.getItem('selectedProductImg');
+    var selectedTitle = localStorage.getItem('selectedProductTitle');
+    var selectedBrand = localStorage.getItem('selectedProductBrand');
+    var selectedPrice = localStorage.getItem('selectedProductPrice');
+    var selectedScore = localStorage.getItem('selectedProductScore');
+    
+    // Luôn cập nhật hiển thị, dù có thông tin được chọn hay không
+    var mainImgs = document.querySelectorAll('.prod-preview__img');
+    var thumbImgs = document.querySelectorAll('.prod-preview__thumb-img');
+    
+    if (mainImgs.length > 0 && thumbImgs.length > 0) {
+      // Danh sách tất cả hình ảnh sản phẩm có sẵn
+      var productImages = [
+        './assets/img/product/item-1.png',
+        './assets/img/product/item-2.png',
+        './assets/img/product/item-3.png',
+        './assets/img/product/item-4.png',
+        './assets/img/product/item-5.png',
+        './assets/img/product/item-6.png',
+        './assets/img/product/item-7.png',
+        './assets/img/product/item-8.png'
+      ];
+      
+      // Nếu không có thông tin được chọn, sử dụng thông tin mặc định
+      if (!selectedImg) {
+        selectedImg = './assets/img/product/item-1.png';
+        console.log('Test page: No selected image, using default:', selectedImg);
+      } else {
+        console.log('Test page: Using selected image:', selectedImg);
+      }
+      
+      if (!selectedTitle) {
+        selectedTitle = 'Coffee Beans - Espresso Arabica and Robusta Beans';
+        console.log('Test page: No selected title, using default:', selectedTitle);
+      } else {
+        console.log('Test page: Using selected title:', selectedTitle);
+      }
+      
+      if (!selectedBrand) {
+        selectedBrand = 'Lavazza';
+        console.log('Test page: No selected brand, using default:', selectedBrand);
+      } else {
+        console.log('Test page: Using selected brand:', selectedBrand);
+      }
+      
+      if (!selectedPrice) {
+        selectedPrice = '$500.00';
+        console.log('Test page: No selected price, using default:', selectedPrice);
+      } else {
+        console.log('Test page: Using selected price:', selectedPrice);
+      }
+      
+      if (!selectedScore) {
+        selectedScore = '4.3';
+        console.log('Test page: No selected score, using default:', selectedScore);
+      } else {
+        console.log('Test page: Using selected score:', selectedScore);
+      }
+      
+      // Xóa localStorage ngay sau khi sử dụng để tránh ảnh hưởng đến sản phẩm tiếp theo
+      localStorage.removeItem('selectedProductImg');
+      localStorage.removeItem('selectedProductImgSetTime');
+      localStorage.removeItem('selectedProductTitle');
+      localStorage.removeItem('selectedProductBrand');
+      localStorage.removeItem('selectedProductPrice');
+      localStorage.removeItem('selectedProductScore');
+      console.log('Test page: Cleared localStorage after using selected product info');
+      
+      // Hình đầu tiên là hình được chọn
+      mainImgs[0].setAttribute('src', selectedImg);
+      thumbImgs[0].setAttribute('src', selectedImg);
+      thumbImgs[0].classList.add('prod-preview__thumb-img--current');
+      
+      // Các hình còn lại được chọn random từ danh sách (loại bỏ hình đã chọn)
+      var availableImages = productImages.filter(img => img !== selectedImg);
+      
+      // Random 3 hình còn lại
+      for (var i = 1; i < 4; i++) {
+        if (i < mainImgs.length && i < thumbImgs.length && availableImages.length > 0) {
+          var randomIndex = Math.floor(Math.random() * availableImages.length);
+          var randomImg = availableImages[randomIndex];
+          
+          mainImgs[i].setAttribute('src', randomImg);
+          thumbImgs[i].setAttribute('src', randomImg);
+          thumbImgs[i].classList.remove('prod-preview__thumb-img--current');
+          
+          // Loại bỏ hình đã dùng để tránh trùng lặp
+          availableImages.splice(randomIndex, 1);
+        }
+      }
+      
+      // Xử lý tương tác giữa các thumbnail
+      var mainPreviewImg = document.querySelector('.prod-preview__list .prod-preview__item:first-child img');
+      var thumbnails = document.querySelectorAll('.prod-preview__thumbs .prod-preview__thumb-img');
+      
+      if (mainPreviewImg && thumbnails.length > 0) {
+        thumbnails.forEach(function(thumb, index) {
+          thumb.addEventListener('click', function() {
+            // Cập nhật hình chính
+            mainPreviewImg.setAttribute('src', this.getAttribute('src'));
+            
+            // Cập nhật trạng thái current
+            thumbnails.forEach(t => t.classList.remove('prod-preview__thumb-img--current'));
+            this.classList.add('prod-preview__thumb-img--current');
+          });
+        });
+      }
+    }
+    
+    // Auto-clear localStorage sau 10 phút để tránh lưu trữ vĩnh viễn
+    setTimeout(function() {
+      localStorage.removeItem('selectedProductImg');
+      localStorage.removeItem('selectedProductImgSetTime');
+      localStorage.removeItem('selectedProductTitle');
+      localStorage.removeItem('selectedProductBrand');
+      localStorage.removeItem('selectedProductPrice');
+      localStorage.removeItem('selectedProductScore');
+      console.log('Test page: Auto-cleared selectedProduct info from localStorage');
+      // Cập nhật hiển thị sau khi clear
+      if (typeof refreshDisplay === 'function') {
+        refreshDisplay();
+      }
+      if (typeof checkLocalStorageStatus === 'function') {
+        checkLocalStorageStatus();
+      }
+    }, 10 * 60 * 1000); // 10 phút
   });
 }

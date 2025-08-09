@@ -4625,3 +4625,29 @@ html {
     margin-bottom: 32px;
   }
 }
+
+/* Product Card Add to Cart Button */
+.product-card__actions {
+  margin-top: 16px;
+}
+
+.product-card__add-to-cart {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.product-card__add-to-cart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 575.98px) {
+  .product-card__add-to-cart {
+    padding: 10px 14px;
+    font-size: 1.3rem;
+  }
+}

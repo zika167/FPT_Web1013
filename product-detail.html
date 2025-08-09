@@ -190,8 +190,8 @@
                                                     </div>
                                                     <p class="prod-info__total-price">$540.00</p>
                                                     <div class="prod-info__row">
-                                                        <button class="btn btn--primary prod-info__add-to-cart">
-                                                            Add to cart
+                                                        <button class="btn btn--primary prod-info__add-to-cart" onclick="addProductToCart()">
+                                                            Thêm vào giỏ hàng
                                                         </button>
                                                         <button class="like-btn prod-info__like-btn">
                                                             <img
@@ -938,6 +938,21 @@
 
         <script>
             load("#footer", "./templates/footer.html");
+        </script>
+
+        <!-- Cart functionality -->
+        <script src="./assets/js/cart.js"></script>
+        <script>
+            function addProductToCart() {
+                const product = {
+                    id: 'product-1',
+                    name: 'Lavazza - Caffè Espresso Black Tin - Ground coffee',
+                    price: 540.00,
+                    image: './assets/img/product/item-1.png'
+                };
+                
+                addToCart(product);
+            }
         </script>
     </body>
 </html>

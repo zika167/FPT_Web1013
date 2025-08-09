@@ -120,6 +120,12 @@ class ProductRenderer {
                         <img src="./assets/icon/star.svg" alt="" class="product-card__star" />
                         <span class="product-card__score">${product.rating}</span>
                     </div>
+                    <div class="product-card__actions">
+                        <button class="btn btn--primary product-card__add-to-cart" 
+                                onclick="addProductToCartFromHome('${product.id}', '${product.name}', '${product.price}', '${product.image}')">
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
                 </article>
             </div>
         `;
