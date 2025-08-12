@@ -410,22 +410,6 @@
         <script>
             load("#footer", "./templates/footer.html");
         </script>
-
-        <!-- Cart functionality -->
-        <script src="./assets/js/cart.js"></script>
-        <script>
-            // Add to cart function for products on home page
-            function addProductToCartFromHome(productId, productName, productPrice, productImage) {
-                const product = {
-                    id: productId,
-                    name: productName,
-                    price: parseFloat(productPrice),
-                    image: productImage
-                };
-                
-                addToCart(product);
-            }
-        </script>
         <div id="uhchatboz" onclick="uhchatClick()" style="bottom: 0px">
             <iframe
                 id="uhchatframe"

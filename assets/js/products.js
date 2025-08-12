@@ -72,6 +72,80 @@ const productsData = [
         image: "./assets/img/product/item-8.png",
         isLiked: false
     }
+    ,
+    // Additional items to show 16 cards on home/index-logined
+    {
+        id: 9,
+        name: "Arabica Classic Roast - Whole Bean",
+        brand: "Lavazza",
+        price: 42.50,
+        rating: 4.2,
+        image: "./assets/img/product/item-1.png",
+        isLiked: false
+    },
+    {
+        id: 10,
+        name: "Espresso Perfetto - Dark Roast",
+        brand: "Lavazza",
+        price: 55.00,
+        rating: 3.9,
+        image: "./assets/img/product/item-2.png",
+        isLiked: false
+    },
+    {
+        id: 11,
+        name: "Caffè Crema - Ground Coffee",
+        brand: "welikecoffee",
+        price: 88.90,
+        rating: 4.8,
+        image: "./assets/img/product/item-3.png",
+        isLiked: false
+    },
+    {
+        id: 12,
+        name: "Mountain Grown Gold - Beans",
+        brand: "Lavazza",
+        price: 36.20,
+        rating: 4.1,
+        image: "./assets/img/product/item-4.png",
+        isLiked: false
+    },
+    {
+        id: 13,
+        name: "Arabica Robusta Blend - Beans",
+        brand: "Lavazza",
+        price: 47.00,
+        rating: 4.5,
+        image: "./assets/img/product/item-5.png",
+        isLiked: false
+    },
+    {
+        id: 14,
+        name: "Italian Espresso Selection",
+        brand: "Lavazza",
+        price: 53.00,
+        rating: 3.6,
+        image: "./assets/img/product/item-6.png",
+        isLiked: false
+    },
+    {
+        id: 15,
+        name: "Caffè Espresso Black Tin",
+        brand: "welikecoffee",
+        price: 95.99,
+        rating: 4.9,
+        image: "./assets/img/product/item-7.png",
+        isLiked: false
+    },
+    {
+        id: 16,
+        name: "Oro Mountain Grown - Beans",
+        brand: "Lavazza",
+        price: 39.99,
+        rating: 4.4,
+        image: "./assets/img/product/item-8.png",
+        isLiked: false
+    }
 ];
 
 class ProductRenderer {
@@ -120,10 +194,13 @@ class ProductRenderer {
                         <img src="./assets/icon/star.svg" alt="" class="product-card__star" />
                         <span class="product-card__score">${product.rating}</span>
                     </div>
-                    <div class="product-card__actions">
-                        <button class="btn btn--primary product-card__add-to-cart" 
-                                onclick="addProductToCartFromHome('${product.id}', '${product.name}', '${product.price}', '${product.image}')">
-                            Thêm vào giỏ hàng
+                    <div class="product-card__row">
+                        <button class="btn btn--primary js-add-to-cart"
+                                data-id="${product.id}"
+                                data-name="${product.name}"
+                                data-price="${product.price}"
+                                data-image="${product.image}">
+                            Add to cart
                         </button>
                     </div>
                 </article>
@@ -134,28 +211,18 @@ class ProductRenderer {
     initLikeButtons() {
         const likeButtons = this.container.querySelectorAll('.like-btn');
         likeButtons.forEach(button => {
-            // Remove any existing event listeners
-            button.removeEventListener('click', this.handleLikeClick);
-            
-            // Add new event listener
-            button.addEventListener('click', this.handleLikeClick.bind(this));
+            button.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Toggle class reliably regardless of viewport
+                button.classList.toggle('like-btn__liked');
+            };
         });
     }
     
-    handleLikeClick(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const productId = parseInt(e.currentTarget.getAttribute('data-product-id'));
-        const product = this.products.find(p => p.id === productId);
-        
-        if (product) {
-            product.isLiked = !product.isLiked;
-            e.currentTarget.classList.toggle('like-btn__liked');
-            
-            // Log for debugging
-            console.log(`Product ${productId} ${product.isLiked ? 'liked' : 'unliked'}`);
-        }
+    // Deprecated per viewport bug; logic handled inline above
+    handleLikeClick() {
+        // no-op
     }
     
     filterProducts(filters = {}) {
@@ -203,6 +270,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (productContainer) {
         window.productRenderer = new ProductRenderer('.row.row-cols-4.row-cols-lg-2.row-cols-sm-1.g-3');
     }
+    // Bind add-to-cart buttons for static category page as well
+    bindAddToCartButtons();
 });
 
 // Also initialize when templates are loaded
@@ -211,6 +280,7 @@ window.addEventListener('template-loaded', function() {
     if (productContainer && !window.productRenderer) {
         window.productRenderer = new ProductRenderer('.row.row-cols-4.row-cols-lg-2.row-cols-sm-1.g-3');
     }
+    bindAddToCartButtons();
 });
 
 // Filter functionality
@@ -235,4 +305,20 @@ function searchProducts() {
     if (searchInput && window.productRenderer) {
         window.productRenderer.searchProducts(searchInput.value);
     }
-} 
+}
+
+// ===== Add-to-cart for product cards =====
+function bindAddToCartButtons() {
+    document.querySelectorAll('.js-add-to-cart').forEach((btn) => {
+        btn.onclick = function(e) {
+            e.preventDefault();
+            const id = `list_${this.dataset.id}`;
+            const name = this.dataset.name;
+            const price = parseFloat(this.dataset.price) || 0;
+            const image = this.dataset.image;
+            if (window.CartService && typeof window.CartService.add === 'function') {
+                window.CartService.add({ id, name, price, image });
+            }
+        };
+    });
+}
